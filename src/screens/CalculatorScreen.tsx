@@ -13,7 +13,23 @@ export const CalculatorScreen = () => {
   };
 
   const addNumber = (number: string) => {
-    setOperation(operation + number);
+    if (operation.includes('.') && number === '.') {
+      return;
+    }
+
+    if (operation === '0' && number !== '.') {
+      setOperation(number);
+    } else {
+      setOperation(operation + number);
+    }
+  };
+
+  const changeSign = () => {
+    if (operation.includes('-') || operation === '0') {
+      setOperation(operation.replace('-', ''));
+    } else {
+      setOperation('-' + operation);
+    }
   };
 
   return (
@@ -24,7 +40,7 @@ export const CalculatorScreen = () => {
       </Text>
       <View style={styles.row}>
         <ButtonCalc color="#9B9B9B" text="C" onPress={cleanOperation} />
-        <ButtonCalc color="#9B9B9B" text="+/-" onPress={cleanOperation} />
+        <ButtonCalc color="#9B9B9B" text="+/-" onPress={changeSign} />
         <ButtonCalc color="#9B9B9B" text="del" onPress={cleanOperation} />
         <ButtonCalc color="#FF9427" text="/" onPress={cleanOperation} />
       </View>
