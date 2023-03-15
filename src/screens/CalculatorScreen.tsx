@@ -83,8 +83,36 @@ export const CalculatorScreen = () => {
     }
 
     operator.current = currentOperator;
-    console.log(operator.current);
     changeOperation();
+  };
+
+  const getResult = () => {
+    const number1: number = Number(previousOperation);
+    const number2: number = Number(operation);
+
+    if (number1 === 0) {
+      return;
+    }
+
+    switch (operator.current) {
+      case Operators.ADD:
+        setOperation(`${number1 + number2}`);
+        break;
+      case Operators.SUBTRACT:
+        setOperation(`${number1 - number2}`);
+        break;
+      case Operators.MULTIPLY:
+        setOperation(`${number1 * number2}`);
+        break;
+      case Operators.DIVIDE:
+        setOperation(`${number1 / number2}`);
+        break;
+
+      default:
+        break;
+    }
+
+    setPreviousOperation('');
   };
 
   return (
@@ -122,7 +150,7 @@ export const CalculatorScreen = () => {
       <View style={styles.row}>
         <ButtonCalc text="0" onPress={addNumber} big />
         <ButtonCalc text="." onPress={addNumber} />
-        <ButtonCalc color="#FF9427" text="=" onPress={cleanOperation} />
+        <ButtonCalc color="#FF9427" text="=" onPress={getResult} />
       </View>
     </View>
   );
