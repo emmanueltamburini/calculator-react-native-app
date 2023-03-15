@@ -24,6 +24,17 @@ export const CalculatorScreen = () => {
     }
   };
 
+  const deleteNumber = () => {
+    if (
+      operation.length === 1 ||
+      (operation.includes('-') && operation.length === 2)
+    ) {
+      setOperation('0');
+    } else {
+      setOperation(operation.slice(0, -1));
+    }
+  };
+
   const changeSign = () => {
     if (operation.includes('-') || operation === '0') {
       setOperation(operation.replace('-', ''));
@@ -41,7 +52,7 @@ export const CalculatorScreen = () => {
       <View style={styles.row}>
         <ButtonCalc color="#9B9B9B" text="C" onPress={cleanOperation} />
         <ButtonCalc color="#9B9B9B" text="+/-" onPress={changeSign} />
-        <ButtonCalc color="#9B9B9B" text="del" onPress={cleanOperation} />
+        <ButtonCalc color="#9B9B9B" text="del" onPress={deleteNumber} />
         <ButtonCalc color="#FF9427" text="/" onPress={cleanOperation} />
       </View>
       <View style={styles.row}>
