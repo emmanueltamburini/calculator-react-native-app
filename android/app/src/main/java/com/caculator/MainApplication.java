@@ -1,4 +1,4 @@
-package com.caculator;
+package com.calculator;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

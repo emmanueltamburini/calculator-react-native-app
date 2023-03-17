@@ -1,119 +1,20 @@
-import React, {useState, useRef} from 'react';
+import React from 'react';
 import {View, Text} from 'react-native';
 import {styles} from '../theme/appTheme';
 import {ButtonCalc} from '../components/ButtonCalc';
-
-enum Operators {
-  ADD,
-  SUBTRACT,
-  MULTIPLY,
-  DIVIDE,
-}
+import {useCalculator} from '../hooks/useCalculator';
 
 export const CalculatorScreen = () => {
-  const [operation, setOperation] = useState<string>('0');
-  const [previousOperation, setPreviousOperation] = useState<string>('0');
-
-  const operator = useRef<Operators>();
-
-  const cleanOperation = () => {
-    setOperation('0');
-    setPreviousOperation('0');
-  };
-
-  const addNumber = (number: string) => {
-    if (operation.includes('.') && number === '.') {
-      return;
-    }
-
-    if (operation === '0' && number !== '.') {
-      setOperation(number);
-    } else {
-      setOperation(operation + number);
-    }
-  };
-
-  const deleteNumber = () => {
-    if (
-      operation.length === 1 ||
-      (operation.includes('-') && operation.length === 2)
-    ) {
-      setOperation('0');
-    } else {
-      setOperation(operation.slice(0, -1));
-    }
-  };
-
-  const changeSign = () => {
-    if (operation.includes('-') || operation === '0') {
-      setOperation(operation.replace('-', ''));
-    } else {
-      setOperation('-' + operation);
-    }
-  };
-
-  const changeOperation = () => {
-    if (operation.endsWith('.')) {
-      setPreviousOperation(operation.slice(0, -1));
-    } else {
-      setPreviousOperation(operation);
-    }
-
-    setOperation('0');
-  };
-
-  const doOperation = (currentStringOperator: string) => {
-    let currentOperator: Operators | undefined;
-    switch (currentStringOperator) {
-      case '+':
-        currentOperator = Operators.ADD;
-        break;
-      case '-':
-        currentOperator = Operators.SUBTRACT;
-        break;
-      case 'X':
-        currentOperator = Operators.MULTIPLY;
-        break;
-      case '/':
-        currentOperator = Operators.DIVIDE;
-        break;
-
-      default:
-        break;
-    }
-
-    operator.current = currentOperator;
-    changeOperation();
-  };
-
-  const getResult = () => {
-    const number1: number = Number(previousOperation);
-    const number2: number = Number(operation);
-
-    if (number1 === 0) {
-      return;
-    }
-
-    switch (operator.current) {
-      case Operators.ADD:
-        setOperation(`${number1 + number2}`);
-        break;
-      case Operators.SUBTRACT:
-        setOperation(`${number1 - number2}`);
-        break;
-      case Operators.MULTIPLY:
-        setOperation(`${number1 * number2}`);
-        break;
-      case Operators.DIVIDE:
-        setOperation(`${number1 / number2}`);
-        break;
-
-      default:
-        break;
-    }
-
-    setPreviousOperation('');
-  };
+  const {
+    addNumber,
+    changeSign,
+    cleanOperation,
+    deleteNumber,
+    doOperation,
+    getResult,
+    operation,
+    previousOperation,
+  } = useCalculator();
 
   return (
     <View style={styles.calculatorContainer}>
